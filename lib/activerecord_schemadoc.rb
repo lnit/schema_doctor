@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative "activerecord_schemadoc/version"
+require_relative "activerecord_schemadoc/schema_file"
+require_relative "activerecord_schemadoc/analyzer"
 
 module ActiveRecordSchemadoc
   class Error < StandardError; end
