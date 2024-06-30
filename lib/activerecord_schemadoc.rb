@@ -4,5 +4,10 @@ require_relative "activerecord_schemadoc/version"
 
 module ActiverecordSchemadoc
   class Error < StandardError; end
-  # Your code goes here...
+
+  class Railtie < ::Rails::Railtie
+    rake_tasks do
+      load "activerecord_schemadoc/tasks/schemadoc.rake"
+    end
+  end
 end
