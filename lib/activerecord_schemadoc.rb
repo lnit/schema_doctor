@@ -2,7 +2,7 @@
 
 require_relative "activerecord_schemadoc/version"
 
-module ActiverecordSchemadoc
+module ActiveRecordSchemadoc
   class Error < StandardError; end
 
   class Railtie < ::Rails::Railtie

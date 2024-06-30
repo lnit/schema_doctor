@@ -4,7 +4,7 @@ require_relative "lib/activerecord_schemadoc/version"
 
 Gem::Specification.new do |spec|
   spec.name = "activerecord_schemadoc"
-  spec.version = ActiverecordSchemadoc::VERSION
+  spec.version = ActiveRecordSchemadoc::VERSION
   spec.authors = ["lni_T"]
   spec.email = ["developer.lni@gmail.com"]
 

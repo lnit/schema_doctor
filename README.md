@@ -1,4 +1,4 @@
-# ActiverecordSchemadoc
+# ActiveRecordSchemadoc
 
 TBD
 
