@@ -1,5 +1,5 @@
 ## [Unreleased]
 
-## [0.1.0] - 2024-06-30
+## [0.0.X]
 
-- Initial release
+- Debug releases
