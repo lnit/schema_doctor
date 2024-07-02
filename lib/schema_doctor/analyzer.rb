@@ -2,7 +2,7 @@
 
 require "active_record"
 
-module ActiveRecordSchemadoc
+module SchemaDoctor
   class Analyzer
     attr_reader :schema_file
 

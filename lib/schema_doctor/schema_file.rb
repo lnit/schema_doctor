@@ -2,7 +2,7 @@
 
 require "fileutils"
 
-module ActiveRecordSchemadoc
+module SchemaDoctor
   class SchemaFile
     def load
       return unless Dir.exist?(schema_dir)

@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in activerecord_schemadoc.gemspec
+# Specify your gem's dependencies in schema_doctor.gemspec
 gemspec
 
 gem "rake", "~> 13.0"
