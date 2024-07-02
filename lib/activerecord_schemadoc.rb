@@ -3,6 +3,7 @@
 require_relative "activerecord_schemadoc/version"
 require_relative "activerecord_schemadoc/schema_file"
 require_relative "activerecord_schemadoc/analyzer"
+require_relative "activerecord_schemadoc/exporter"
 
 module ActiveRecordSchemadoc
   class Error < StandardError; end
