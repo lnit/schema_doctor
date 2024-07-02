@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "activerecord_schemadoc"
+require "schema_doctor"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

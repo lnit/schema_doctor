@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-require_relative "lib/activerecord_schemadoc/version"
+require_relative "lib/schema_doctor/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "activerecord_schemadoc"
-  spec.version = ActiveRecordSchemadoc::VERSION
+  spec.name = "schema_doctor"
+  spec.version = SchemaDoctor::VERSION
   spec.authors = ["lni_T"]
   spec.email = ["developer.lni@gmail.com"]
 
   spec.summary = "Automatic database documentation tool."
   # spec.description = "TODO: Write a longer description or delete this line."
-  spec.homepage = "https://github.com/lnit/activerecord_schemadoc"
+  spec.homepage = "https://github.com/lnit/schema_doctor"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
 
   # spec.metadata["homepage_uri"] = spec.homepage
   # spec.metadata["source_code_uri"] = spec.homepage
-  spec.metadata["changelog_uri"] = "https://github.com/lnit/activerecord_schemadoc/blob/master/CHANGELOG.md"
+  spec.metadata["changelog_uri"] = "https://github.com/lnit/schema_doctor/blob/master/CHANGELOG.md"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

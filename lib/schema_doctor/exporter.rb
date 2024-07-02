@@ -2,7 +2,7 @@
 
 require "asciidoctor"
 
-module ActiveRecordSchemadoc
+module SchemaDoctor
   class Exporter
     attr_reader :schema_file
 
