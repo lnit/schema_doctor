@@ -1,11 +1,24 @@
 # SchemaDoctor
 
-TBD
+Automatic database documentation tool, for Ruby on Rails project.
 
 ## Installation
 
-TBD
+Add the gem to your project
+
+```rb
+gem "rails"
+
+group :development do
+  gem "schema_doctor"
+end
+```
+
+Then `bundle install` and you are ready to go.
 
 ## Usage
 
-TBD
+```sh
+rails schema:analyze # Analyze Database Schema.
+rails schema:export  # Export HTML.
+```
