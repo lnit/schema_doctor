@@ -36,6 +36,9 @@ module SchemaDoctor
           }
       rescue ActiveRecord::TableNotSpecified
         nil
+      rescue => e
+        puts "Failed to process #{model.name}: #{e.inspect}"
+        puts "\e[31mWe're sorry, Failed to process \e[33m#{model.name}\e[31m:\n #{e.inspect}\e[0m"
       end
 
       schema
