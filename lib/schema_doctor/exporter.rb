@@ -85,6 +85,40 @@ module SchemaDoctor
 
             TEXT
           end
+
+          # Output associations schema
+          f.puts <<~TEXT
+
+            === Associations
+          TEXT
+          if model[:associations].present?
+            f.puts <<~TEXT
+              [cols="1,1,1,1,1,1"]
+              |===
+              |macro|name|foreign_key|association_foreign_key|options|polymorphic
+
+            TEXT
+
+            model[:associations].each_value do |association|
+              class_name = association.delete(:class_name).to_s
+              association[:name] = "link:#_#{class_name.downcase}[#{association[:name]}]"
+              str = association.values.map do |v|
+                escaped = v.to_s.gsub("|", "{vbar}")
+                "|#{escaped}\n"
+              end.join
+
+              f.puts <<~TEXT
+                #{str}
+              TEXT
+            end
+
+            f.puts "|==="
+          else
+            f.puts <<~TEXT
+              None
+
+            TEXT
+          end
         end
       end
       puts "Done! => #{adoc_path}"
