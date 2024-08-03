@@ -23,6 +23,7 @@ module SchemaDoctor
           :toclevels: 1
           :toc-title: Table of Contents
           :linkattrs:
+          :sectlinks:
 
         TEXT
 
