@@ -91,17 +91,21 @@ module SchemaDoctor
 
             === Associations
           TEXT
-          if model[:associations].present?
+          belongs = model[:associations][:belongs]
+          if belongs.present?
             f.puts <<~TEXT
-              [cols="1,1,1,1,1,1"]
+              [cols="1,1,1,1"]
               |===
-              |macro|name|foreign_key|association_foreign_key|options|polymorphic
+              |macro|name|foreign_key|options
 
             TEXT
 
-            model[:associations].each_value do |association|
+            belongs.each_value do |association|
               class_name = association.delete(:class_name).to_s
-              association[:name] = "link:#_#{class_name.downcase}[#{association[:name]}]"
+              polymorphic = association.delete(:polymorphic)
+              # TODO: polymorphicのリンク先を特定できるようにする。今のところリンクを生成しないように。
+              association[:name] = "link:#_#{class_name.downcase.gsub("::", "")}[#{association[:name]}]" unless polymorphic
+
               str = association.values.map do |v|
                 escaped = v.to_s.gsub("|", "{vbar}")
                 "|#{escaped}\n"
@@ -113,7 +117,34 @@ module SchemaDoctor
             end
 
             f.puts "|==="
-          else
+          end
+
+          has = model[:associations][:has]
+          if has.present?
+            f.puts <<~TEXT
+              [cols="1,1,1"]
+              |===
+              |macro|name|options
+
+            TEXT
+
+            has.each_value do |association|
+              class_name = association.delete(:class_name).to_s
+              association[:name] = "link:#_#{class_name.gsub("::", "").downcase}[#{association[:name]}]"
+              str = association.values.map do |v|
+                escaped = v.to_s.gsub("|", "{vbar}")
+                "|#{escaped}\n"
+              end.join
+
+              f.puts <<~TEXT
+                #{str}
+              TEXT
+            end
+
+            f.puts "|==="
+          end
+
+          if belongs.empty? & has.empty?
             f.puts <<~TEXT
               None
 

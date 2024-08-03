@@ -90,17 +90,36 @@ module SchemaDoctor
     end
 
     def associations(model)
-      model.reflect_on_all_associations.each_with_object({}) do |association, hash|
-        hash[association.name] = {
-          macro: association.macro.to_s,
-          name: association.name,
-          class_name: association.class_name,
-          foreign_key: association.foreign_key,
-          association_foreign_key: association.association_foreign_key,
-          options: association.options,
-          polymorphic: association.polymorphic?
-        }
+      result = {
+        belongs: {},
+        has: {}
+      }
+
+      model.reflect_on_all_associations.each do |association|
+        case association.macro.to_s
+        when /\Abelongs_to/
+          result[:belongs][association.name] = {
+            macro: association.macro.to_s,
+            name: association.name,
+            class_name: association.class_name,
+            foreign_key: association.foreign_key,
+            options: association.options,
+            polymorphic: association.polymorphic?
+          }
+        when /\Ahas/
+          result[:has][association.name] = {
+            macro: association.macro.to_s,
+            name: association.name,
+            class_name: association.class_name,
+            options: association.options
+          }
+        else
+          puts "Unknown association type: #{association.macro}: :#{association.name}"
+          next
+        end
       end
+
+      result
     end
   end
 end
