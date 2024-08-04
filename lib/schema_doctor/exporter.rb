@@ -85,6 +85,71 @@ module SchemaDoctor
 
             TEXT
           end
+
+          # Output associations schema
+          f.puts <<~TEXT
+
+            === Associations
+          TEXT
+          belongs = model[:associations][:belongs]
+          if belongs.present?
+            f.puts <<~TEXT
+              [cols="1,1,1,1"]
+              |===
+              |macro|name|foreign_key|options
+
+            TEXT
+
+            belongs.each_value do |association|
+              class_name = association.delete(:class_name).to_s
+              polymorphic = association.delete(:polymorphic)
+              # TODO: polymorphicのリンク先を特定できるようにする。今のところリンクを生成しないように。
+              association[:name] = "link:#_#{class_name.downcase.gsub("::", "")}[#{association[:name]}]" unless polymorphic
+
+              str = association.values.map do |v|
+                escaped = v.to_s.gsub("|", "{vbar}")
+                "|#{escaped}\n"
+              end.join
+
+              f.puts <<~TEXT
+                #{str}
+              TEXT
+            end
+
+            f.puts "|==="
+          end
+
+          has = model[:associations][:has]
+          if has.present?
+            f.puts <<~TEXT
+              [cols="1,1,1"]
+              |===
+              |macro|name|options
+
+            TEXT
+
+            has.each_value do |association|
+              class_name = association.delete(:class_name).to_s
+              association[:name] = "link:#_#{class_name.gsub("::", "").downcase}[#{association[:name]}]"
+              str = association.values.map do |v|
+                escaped = v.to_s.gsub("|", "{vbar}")
+                "|#{escaped}\n"
+              end.join
+
+              f.puts <<~TEXT
+                #{str}
+              TEXT
+            end
+
+            f.puts "|==="
+          end
+
+          if belongs.empty? & has.empty?
+            f.puts <<~TEXT
+              None
+
+            TEXT
+          end
         end
       end
       puts "Done! => #{adoc_path}"

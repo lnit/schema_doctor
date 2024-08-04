@@ -32,11 +32,13 @@ module SchemaDoctor
             table_comment: connection.table_comment(model.table_name),
             extra_comment: schema.dig(model.name, :extra_comment),
             columns: columns(model, schema.dig(model.name, :columns) || {}),
-            indexes: indexes(model)
+            indexes: indexes(model),
+            associations: associations(model)
           }
       rescue ActiveRecord::TableNotSpecified
         nil
       rescue => e
+        # Skip analyzing if an error occurs
         puts "Failed to process #{model.name}: #{e.inspect}"
         puts "\e[31mWe're sorry, Failed to process \e[33m#{model.name}\e[31m:\n #{e.inspect}\e[0m"
       end
@@ -85,6 +87,39 @@ module SchemaDoctor
           using: index.using
         }
       end
+    end
+
+    def associations(model)
+      result = {
+        belongs: {},
+        has: {}
+      }
+
+      model.reflect_on_all_associations.each do |association|
+        case association.macro.to_s
+        when /\Abelongs_to/
+          result[:belongs][association.name] = {
+            macro: association.macro.to_s,
+            name: association.name,
+            class_name: association.class_name,
+            foreign_key: association.foreign_key,
+            options: association.options,
+            polymorphic: association.polymorphic?
+          }
+        when /\Ahas/
+          result[:has][association.name] = {
+            macro: association.macro.to_s,
+            name: association.name,
+            class_name: association.class_name,
+            options: association.options
+          }
+        else
+          puts "Unknown association type: #{association.macro}: :#{association.name}"
+          next
+        end
+      end
+
+      result
     end
   end
 end
