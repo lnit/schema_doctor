@@ -103,7 +103,7 @@ module SchemaDoctor
             name: association.name,
             class_name: association.class_name,
             foreign_key: association.foreign_key,
-            options: association.options,
+            options: Utils.sefety_dump_hash(association.options),
             polymorphic: association.polymorphic?
           }
         when /\Ahas/
@@ -111,7 +111,7 @@ module SchemaDoctor
             macro: association.macro.to_s,
             name: association.name,
             class_name: association.class_name,
-            options: association.options
+            options: Utils.sefety_dump_hash(association.options)
           }
         else
           puts "Unknown association type: #{association.macro}: :#{association.name}"
