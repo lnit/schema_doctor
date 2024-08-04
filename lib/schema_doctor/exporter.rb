@@ -24,6 +24,7 @@ module SchemaDoctor
           :toc-title: Table of Contents
           :linkattrs:
           :sectlinks:
+          :sectanchors:
 
         TEXT
 
