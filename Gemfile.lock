@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    schema_doctor (0.0.3)
+    schema_doctor (0.0.4)
       activerecord (~> 7.0)
       asciidoctor (~> 2.0)
       railties (~> 7.0)
