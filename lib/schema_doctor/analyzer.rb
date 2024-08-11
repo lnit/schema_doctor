@@ -25,7 +25,7 @@ module SchemaDoctor
         next if model.table_name.blank?
 
         puts "Processing #{model.name}..."
-        schema[model.name] =
+        schema[model.name.to_sym] =
           {
             name: model.name,
             table_name: model.table_name,
@@ -61,7 +61,7 @@ module SchemaDoctor
 
     def columns(model, columns = {})
       model.columns.each do |column|
-        columns[column.name] =
+        columns[column.name.to_sym] =
           {
             name: column.name,
             type: column.type,
@@ -80,7 +80,7 @@ module SchemaDoctor
 
     def indexes(model)
       connection.indexes(model.table_name).each_with_object({}) do |index, hash|
-        hash[index.name] = {
+        hash[index.name.to_sym] = {
           name: index.name,
           columns: index.columns,
           unique: index.unique,
@@ -98,7 +98,7 @@ module SchemaDoctor
       model.reflect_on_all_associations.each do |association|
         case association.macro.to_s
         when /\Abelongs_to/
-          result[:belongs][association.name] = {
+          result[:belongs][association.name.to_sym] = {
             macro: association.macro.to_s,
             name: association.name,
             class_name: association.class_name,
@@ -107,7 +107,7 @@ module SchemaDoctor
             polymorphic: association.polymorphic?
           }
         when /\Ahas/
-          result[:has][association.name] = {
+          result[:has][association.name.to_sym] = {
             macro: association.macro.to_s,
             name: association.name,
             class_name: association.class_name,
