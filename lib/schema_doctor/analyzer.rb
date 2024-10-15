@@ -29,6 +29,7 @@ module SchemaDoctor
           {
             name: model.name,
             table_name: model.table_name,
+            i18n_name: model.model_name.human(default: ""),
             table_comment: connection.table_comment(model.table_name),
             extra_comment: schema.dig(model.name, :extra_comment),
             columns: columns(model, schema.dig(model.name, :columns) || {}),
@@ -64,6 +65,7 @@ module SchemaDoctor
         columns[column.name.to_sym] =
           {
             name: column.name,
+            i18n_name: model.human_attribute_name(column.name, default: ""),
             type: column.type,
             sql_type: column.sql_type,
             default: column.default,
