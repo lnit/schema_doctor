@@ -9,14 +9,14 @@ module SchemaDoctor
 
       # Load schema specification files and merge them into a single hash
       Dir.glob("#{schema_dir}/*").inject({}) do |hash, file|
-        hash.merge(YAML.load_file(file))
+        hash.merge(YAML.load_file(file, symbolize_names: true))
       end
     end
 
     def dump(specs)
       # Output specification files for each model
       FileUtils.mkdir_p(schema_dir)
-      specs.each do |name, spec|
+      Utils.deep_stringify(specs).each do |name, spec|
         File.open("#{schema_dir}/#{name}.yml", "w") do |f|
           YAML.dump({name => spec}, f)
         end
