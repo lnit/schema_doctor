@@ -3,12 +3,12 @@
 module SchemaDoctor
   class Utils
     class << self
-      def sefety_dump_hash(obj)
+      def safety_dump_hash(obj)
         case obj
         when Hash
-          obj.transform_values { |v| sefety_dump_hash(v) }
+          obj.transform_values { |v| safety_dump_hash(v) }
         when Array
-          obj.map { |v| sefety_dump_hash(v) }
+          obj.map { |v| safety_dump_hash(v) }
         when TrueClass, FalseClass, NilClass, Integer, Float, String
           obj
         else
