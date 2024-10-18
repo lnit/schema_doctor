@@ -32,6 +32,7 @@ module SchemaDoctor
           f.puts <<~TEXT
             == #{model[:name]}
             * Table name: #{model[:table_name]}
+            #{ model[:i18n_name].present? ? "* I18n text: #{model[:i18n_name]}" : "" }
             * Comment: #{model[:table_comment]}
             #{model[:extra_comment]}
 
@@ -44,6 +45,9 @@ module SchemaDoctor
 
           # Output columns schema
           model[:columns].each_value do |column|
+            human = column.delete(:i18n_name)
+            column[:name] = "#{column[:name]} (#{human})" if human.present?
+
             column[:column_comment] = column[:column_comment].to_s + column.delete(:extra_comment).to_s
             col_str = column.values.map do |v|
               escaped = v.to_s.gsub("|", "{vbar}") # "|" is table delimiter in asciidoc
